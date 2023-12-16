@@ -19,7 +19,7 @@ def get_llama(model):
     torch.nn.init.uniform_ = skip
     torch.nn.init.normal_ = skip
     from transformers import LlamaForCausalLM
-    model = LlamaForCausalLM.from_pretrained(model, torch_dtype=torch.float16)
+    model = LlamaForCausalLM.from_pretrained(model, local_files_only = True, torch_dtype=torch.float16)
     model.seqlen = 2048
     return model
 
@@ -448,7 +448,7 @@ if __name__ == '__main__':
     parser.add_argument('--nsamples', type=int, default=128, help='Number of calibration data samples.')
     parser.add_argument('--percdamp', type=float, default=.01, help='Percent of the average Hessian diagonal to use for dampening.')
     parser.add_argument('--nearest', action='store_true', help='Whether to run the RTN baseline.')
-    parser.add_argument('--wbits', type=int, default=16, choices=[2, 3, 4, 8, 16], help='#bits to use for quantization; use 16 for evaluating base model.')
+    parser.add_argument('--wbits', type=int, default=16, choices=[1, 2, 3, 4, 8, 16], help='#bits to use for quantization; use 16 for evaluating base model.')
     parser.add_argument('--trits', action='store_true', help='Whether to use trits for quantization.')
     parser.add_argument('--groupsize', type=int, default=-1, help='Groupsize to use for quantization; default uses full row.')
     parser.add_argument('--eval', action='store_true', help='evaluate quantized model.')
